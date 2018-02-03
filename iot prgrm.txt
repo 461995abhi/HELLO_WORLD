@@ -1,0 +1,53 @@
+#include<ESP8266WiFi.h>
+#include<WiFiUDP.h>
+char msg[20];
+
+WiFiUDP Udp;
+int localport=1433;
+
+void setup() {
+ Serial.begin(115200);
+ delay(1000);
+WiFi.begin("farhan","farhan123");
+delay(10000);
+Serial.print("IP is : ");
+
+Serial.println(WiFi.localIP());
+delay(1000);
+if(WiFi.status()!=WL_CONNECTED){
+Serial.println("Wifi is not connected, wait...");
+}
+else{
+  Serial.println("Wifi is connected, Waiting for response......");
+  }
+
+
+
+pinMode(LED_BUILTIN,OUTPUT);
+Udp.begin(localport);
+
+}
+
+void loop() {
+Udp.read(msg,20);
+int packetSize=Udp.parsePacket();
+delay(100);
+String logic=String(msg);
+delay(100);
+if(packetSize>0)
+{
+if(logic.equals("ononon")){
+Serial.println("LED IS ON.............");
+digitalWrite(LED_BUILTIN,HIGH);
+}
+
+
+  else if(logic.equals("off"))
+  {
+    Serial.println("LED IS OFF.............");
+digitalWrite(LED_BUILTIN,LOW);
+     }
+
+ char msg[]="";
+}
+}
